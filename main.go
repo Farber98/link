@@ -30,12 +30,7 @@ func readHtmlFromFile(fileName string) (string, error) {
 	return string(bs), nil
 }
 
-func main() {
-	htmlCont, err := readHtmlFromFile(EX2)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func parse(htmlCont string) ([]link, error) {
 	doc, err := html.Parse(strings.NewReader(htmlCont))
 	if err != nil {
 		log.Fatal(err)
@@ -63,5 +58,19 @@ func main() {
 		}
 	}
 	f(doc)
-	fmt.Println(linksArr)
+	return linksArr, nil
+}
+
+func main() {
+	htmlCont, err := readHtmlFromFile(EX2)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	links, err := parse(htmlCont)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(links)
 }
