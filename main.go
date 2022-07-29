@@ -31,7 +31,7 @@ func readHtmlFromFile(fileName string) (string, error) {
 }
 
 func main() {
-	htmlCont, err := readHtmlFromFile(EX4)
+	htmlCont, err := readHtmlFromFile(EX2)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,7 +47,12 @@ func main() {
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
 				if a.Key == "href" {
-					l := link{href: a.Val, text: "not supported yet..."}
+					text := ""
+					text = n.FirstChild.Data
+					if n.FirstChild != n.LastChild && n.LastChild.Type != html.CommentNode {
+						text += n.LastChild.Data
+					}
+					l := link{href: a.Val, text: text}
 					linksArr = append(linksArr, l)
 					break
 				}
